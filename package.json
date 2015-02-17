@@ -1,0 +1,32 @@
+{
+  "name": "leranjs",
+  "title": "leranjs",
+  "description": "leranjs",
+  "version": "0.0.0",
+  "author": {
+    "name": "lera-m",
+    "url": "http://github.com/lera-m"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/lera-m/leranjs.git"
+  },
+  "bugs": {
+    "url": "http://github.com/lera-m/leranjs/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
+  "dependencies": {
+    "colors": "^1.0.3",
+    "express": "^4.11.2",
+    "serve-index": "^1.6.2"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "learn"
+  ]
+}
