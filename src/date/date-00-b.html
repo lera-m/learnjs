@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Date-Objekt 2</title>
+<style>
+body, h1 {
+  font-family: Arial;
+  font-size: 12px;
+}
+h1 {
+  font-weight: bold;
+}
+p {
+  color: grey;
+  font-family: monospace;
+  white-space: pre;
+  
+}
+code, div {
+  color: navy;
+}
+</style>
+<script>
+
+function schaltjahre(from, to) {
+  var i;
+
+  var date;
+  var dateInMS;
+  var oneYearInMSec;
+
+  var datePlusOneYear;
+  var datePlusOneYearInMS;
+
+  var days;
+
+  var list = [];
+
+
+  for (i = from ; i < to ; i++) {
+      dateInMS = Date.UTC(i, 0, 1);
+      
+      datePlusOneYearInMS = Date.UTC(i+1, 0, 1);
+
+      oneYearInMSec = datePlusOneYearInMS - dateInMS;
+
+      days = oneYearInMSec/1000/60/60/24;
+
+      if (days == 366){
+        list.push(i);
+      }
+  }
+
+  return list;
+}
+
+/*function listMaker(arr) {
+  if (arr.length >= 1) {
+    return '<ul><li>' + arr.join('</li><li>') + '</li></ul>';
+  } else{
+    return '';
+  }
+}*/
+function getFirstLastDay(year) {
+  var month;
+  var monate = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  var tage = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sonnabend'];
+  var p = '';
+  var d1, d2;
+
+  for (month = 0; month <=11; month++) {
+    d1 = new Date(year, month, 1);
+    d2 = new Date(year, month+1, 0);
+    p += monate[month] + ': ' + d2.getDate() + ' Tage<br>';
+    
+    p += d1.toLocaleDateString() + ': ' + tage[d1.getDay()] + '<br>';
+   
+    p += d2.toLocaleDateString() + ': ' + tage[d2.getDay()] + '<br>';
+
+
+  }
+  return p;
+
+}
+
+function playingWithDates() {
+
+
+  var monate = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  var tage = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sonnabend'];
+
+  // For further headlines and pragraphes on our web page.
+  // See function cE() below.
+  var h = '', p = '', pp = '';
+
+  // Some helper variables
+  var year, month, day, x, y, days;
+
+  // Note: just one integer means milliseconds!
+  // What date and what time are we going to get from millisecond 0?
+  var d1 = new Date(0);
+
+
+
+  p = '<code><b>var</b> d1 = <b>new</b> Date(0);</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert Millisekunde 0 (Null)?';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+  cE('hr','');
+
+  // What date and what time are we going to get from this date string?
+  var d1 = new Date('January 1, 1970 0:0:00');
+  p = '<code><b>var</b> d1 = <b>new</b> Date(\'January 1, 1970 0:0:00\');</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert dieser Datumsstring?';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+  cE('hr','');
+
+  // What date and what time are we going to get from this?
+  var d1 = new Date(0, 0, 0, 0, 0, 0, 0);
+  p = '<code><b>var</b> d1 = <b>new</b> Date(0, 0, 0, 0, 0, 0, 0);</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert diese Angabe?<br>'
+    + '(In der Klammer: <em>year, month, day, hours, minutes, seconds, milliseconds</em>.)';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+  cE('hr','');
+
+  // What date and what time are we going to get from this?
+  var d1 = new Date(Date.UTC(0, 0, 0, 0, 0, 0, 0));
+  p = '<code><b>var</b> d1 = <b>new</b> Date(Date.UTC(0, 0, 0, 0, 0, 0, 0));</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert diese Angabe?<br>'
+    + '(In der Klammer: <em>year, month, day, hours, minutes, seconds, milliseconds</em>.)';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+  cE('hr','');
+
+  // What date and what time are we going to get from this?
+  var d1 = new Date(1970, 0, 1, 0, 0, 0, 0);
+  p = '<code><b>var</b> d1 = <b>new</b> Date(1970, 0, 1, 0, 0, 0, 0);</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert diese Angabe?<br>'
+    + '(In der Klammer: <em>year, month, day, hours, minutes, seconds, milliseconds</em>.)';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+  cE('hr','');
+
+  // What date and what time are we going to get from this?
+  var d1 = new Date(Date.UTC(1970, 0, 1, 0, 0, 0, 0));
+  p = '<code><b>var</b> d1 = <b>new</b> Date(Date.UTC(1970, 0, 1, 0, 0, 0, 0));</code>';
+  cE('p',p);
+
+  h = 'Welches Jahr, welches Datum, welche Zeit liefert diese Angabe?<br>'
+    + '(In der Klammer: <em>year, month, day, hours, minutes, seconds, milliseconds</em>.)';
+  cE('h1',h);
+
+  p = '<code>d1.getTime()</code>:     ' + d1.getTime() + '<br>'
+    + '<code>d1.getFullYear()</code>: ' + d1.getFullYear() + '<br>'
+    + '<code>d1.getDay()</code>:      ' + d1.getDay() + ' (Es war ein ' + tage[d1.getDay()] + '.)<br>'
+    + '<code>d1.getDate()</code>:     ' + d1.getDate() + '<br>'
+    + '<code>d1.getMonth()</code>:    ' + d1.getMonth() + ' (also ' + monate[d1.getMonth()] + ')<br>'
+    + '<code>d1.getHours()</code>:    ' + d1.getHours() + '<br>'
+    + '<code>d1.getMinutes()</code>:  ' + d1.getMinutes() + '<br>'
+    + '<code>d1.getSeconds()</code>:  ' + d1.getSeconds() + '<br>';
+  cE('p',p);
+
+h = 'Die Schaltjahre seit 1970';
+cE('hr','');
+cE ('div', getFirstLastDay(2015));
+cE('hr','');
+cE('h1',h);
+
+
+  var years = schaltjahre(1970, 2015);
+  //var yearsAsList = listMaker(years);
+
+  cE('div', years.join('<br>'));
+
+}
+
+//create element
+function cE (tag, html) {
+  var e = document.createElement(tag);
+  e.innerHTML = html;
+  document.body.appendChild(e);
+}
+</script>
+</head>
+<body onload="playingWithDates()">
+</body>
+</html>

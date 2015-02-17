@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>XMLHttpRequest - XML</title>
+<style>
+#id01 {}
+</style>
+<script>
+
+var url = 'spelling_alphabet-ru_RU.xml';
+
+if ( window.XMLHttpRequest ) { // Mozilla, Safari, ...
+  var xmlhttp = new XMLHttpRequest();
+} else if ( window.ActiveXObject ) { // IE
+  try {
+    var xmlhttp = new ActiveXObject( 'Msxml2.XMLHTTP' );
+  }
+  catch(e) {
+    try {
+      var xmlhttp = new ActiveXObject( 'Microsoft.XMLHTTP' );
+    }
+    catch(e) {}
+  }
+}
+
+xmlhttp.onreadystatechange = function() {
+  if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+    var result = xmlhttp.responseXML;
+    showResult(result);
+  }
+}
+
+xmlhttp.open( 'GET', url, true );
+xmlhttp.send();
+
+function showResult(xmldoc) {
+
+  var t = xmldoc.getElementsByTagName('title')[0].childNodes[0].nodeValue;
+  var w = xmldoc.getElementsByTagName('word');
+  var m_w = xmldoc.getElementsByTagName('mainword')[0].childNodes[0].nodeValue;
+  var m_l = xmldoc.getElementsByTagName('mainword')[0].attributes.main_letter.value;
+
+  var l;
+  var n;
+  var out = '<h1 style="color:red">' + t + '</h1>' + 
+            '<p>' + m_l + ' ... ' + m_w + ' ... <br></p>';
+
+  for (var i = 0; i < w.length; i++) {
+
+    l = w[i].attributes.letter.value; // letter
+    n = w[i].childNodes[0].nodeValue; // name
+
+    /*
+    out += l + ' ... ' + n + ' ... '
+        + '<audio id="' + l + '">'
+        + '<source src="https://tts.voicetech.yandex.net/tts?format=mp3&quality=hi&text='
+        + n
+        + '&lang=de_DE">'
+        + '</audio>'
+        + '<a href="#" onclick="document.getElementById(\'' + l + '\').play(); return false;">Audio</a>'
+        + '<br>';
+    */
+   
+    out += l + ' ... ' + n + ' ... '
+        + '<a href="#" onclick="playAudio(\'' + n + '\'); return false;">Audio</a>'
+        + '<br>';
+  }
+
+  document.getElementById("id01").innerHTML = out;
+
+}
+
+function playAudio(name) {
+
+  var u = 'https://tts.voicetech.yandex.net/tts?format=mp3&quality=hi&lang=ru_RU&text=' + encodeURI(name);
+  var p = document.getElementById('player');
+
+  p.src = u;
+  p.play();
+
+}
+
+</script>
+</head>
+<body>
+<audio id="player"></audio>
+<div id="id01"></div>
+</body>
+</html>

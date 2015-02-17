@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Date-Objekt 1</title>
+<style>
+p {
+  font-family: monospace;
+  white-space: pre;
+}
+code {
+  color: navy;
+}
+</style>
+<script>
+
+function playingWithDates() {
+
+  var currentdate = new Date();
+  cP('<code><b>var</b> currentdate = <b>new</b> Date();</code><br>'
+   + 'Die Variable <code>currentdate</code> enthält ein Datumsobjekt,<br>'
+   + 'hier mit dem aktuellen Datum:                               '
+   + currentdate);
+
+  var dayofweek = currentdate.getDay();
+  cP('<code><b>var</b> dayofweek = currentdate.getDay();</code><br>'
+   + 'Die Variable <code>dayofweek</code> enthält den Index des Wochentages:   '
+   + dayofweek
+   + ' (Sonntag: 0, Montag: 1 usw.)');
+
+  var month = currentdate.getMonth();
+  cP('<code><b>var</b> month = currentdate.getMonth();</code><br>'
+   + 'Die Variable <code>month</code> enthält den Index des Monats:            '
+   + month
+   + ' (Januar: 0, Februar: 1 usw.)');
+
+  var day = currentdate.getDate();
+  cP('<code><b>var</b> day = currentdate.getDate();</code><br>'
+   + 'Die Variable <code>day</code> enthält die Zahl des Tages im Monat:       '
+   + day);
+
+  var year = currentdate.getFullYear();
+  cP('<code><b>var</b> year = currentdate.getFullYear();</code><br>'
+   + 'Die Variable <code>year</code> enthält die vierstellige Jahreszahl:      '
+   + year);
+
+  var hours = currentdate.getHours();
+  cP('<code><b>var</b> hours = currentdate.getHours();</code><br>'
+   + 'Die Variable <code>hours</code> enthält die Stundenzahl der Uhrzeit:     '
+   + hours);
+
+  var minutes = currentdate.getMinutes();
+  cP('<code><b>var</b> minutes = currentdate.getMinutes();</code><br>'
+   + 'Die Variable <code>minutes</code> enthält die Minutenzahl der Uhrzeit:   '
+   + minutes);
+
+  var seconds = currentdate.getSeconds();
+  cP('<code><b>var</b> seconds = currentdate.getSeconds();</code><br>'
+   + 'Die Variable <code>seconds</code> enthält die Sekunden der Uhrzeit:      '
+   + seconds);
+
+  var msecs = currentdate.getMilliseconds();
+  cP('<code><b>var</b> msecs = currentdate.getMilliseconds();</code><br>'
+   + 'Die Variable <code>msecs</code> enthält die Millisekunden der Uhrzeit:   '
+   + msecs);
+
+  var tzdiff = currentdate.getTimezoneOffset();
+  cP('<code><b>var</b> currentdate.getTimezoneOffset();</code><br>'
+   + 'Die Variable <code>tzdiff</code> enthält die Differenz zu UTC:           '
+   + tzdiff + ' (Zeitzonenunterschied in Minuten)');
+
+  var currentUTCdate = new Date(Date.UTC(year, month, day, hours, minutes, seconds, msecs));
+  cP('<code><b>var</b> currentUTCdate = <b>new</b> Date(Date.UTC(year, month, day, hours, minutes, seconds, msecs));</code><br>'
+   + 'Die Variable <code>currentUTCdate</code> enthält ein Datumsobjekt,<br>'
+   + 'hier mit dem UTC-basierten aktuellen Datum:                 '
+   + currentUTCdate);
+
+}
+
+//create paragraph <p>...</p>
+function cP (html) {
+  var p = document.createElement('p');
+  p.innerHTML = html;
+  document.body.appendChild(p);
+}
+</script>
+</head>
+<body onload="playingWithDates()">
+</body>
+</html>

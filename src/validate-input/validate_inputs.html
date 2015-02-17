@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Validate inputs 00</title>
+<style>
+body {
+  color: #888;
+  font-family: Arial;
+  font-size: 13px;
+}
+#formcontainer {
+  position: absolute;
+}
+label {
+  display: inline-block;
+  text-align: right;
+  width: 200px;
+}
+input {
+  border: 1px solid #ccc;
+  margin: 2px;
+  padding: 3px;
+}
+button {
+  background-color: #005fff;
+  border: medium none;
+  font-family: Arial;
+  font-size: 13px;
+  color: #fff;
+  margin: 0;
+  padding: 3px 10px;
+}
+#response {
+  background-color: #ffffb0; 
+  border: 1px solid #ccc;
+  display: block;
+  height: 18px;
+  margin: 0 0 0 5px;
+  padding: 2px 5px;
+  position: absolute;
+  width: 500px;
+}
+</style>
+<script>
+function validateEmail(email) {
+  if (email.indexOf(' ') != -1) {
+    return 'kein Leerzeichen ist erlaubt';
+  } else if (email.indexOf('@') == -1) {
+    return 'es gibt kein At-Zeichen';
+  }
+
+  var splitted = email.split('@');
+
+  if (splitted.length !== 2) {
+    return 'nur ein At-Zeichen ist erlaubt';
+  }
+
+  var beforeAt = splitted[0]; 
+  var afterAt = splitted[1];
+
+  // проверка перед @
+  if (beforeAt == "") {
+    return 'keine Zeichen vor dem At-Zeichen';
+  }
+
+  splitted = beforeAt.split('.');
+
+  if (splitted.indexOf('') != -1) {
+    return 'falsche Punktposition vor dem At-Zeichen';
+  }
+  
+  var i;
+  for (i = 0; i < splitted.length; i++) {
+    if (!splitted[i].match(/^[a-z0-9\-_]*$/i)) {
+      return 'nur Buchstaben, Zahlen, Unterstrich und Bindestrich sind vor dem At-Zeichen erlaubt';
+    }
+  }
+
+    // проверка после @
+    if (afterAt == "") {
+    return 'keine Zeichen nach dem At-Zeichen';
+  } 
+
+    splitted = afterAt.split('.');
+
+  if (splitted.indexOf('') != -1) {
+    return 'falsche Punktposition nach dem At-Zeichen';
+  }
+
+  if (splitted.length < 2) {
+    return 'Kein Punkt nach dem At-Zeichen';
+  }
+    
+    if (splitted[splitted.length - 1].length < 2) {
+      return 'Domainendung braucht minimum 2 Zeichen';
+    }
+
+    if (!splitted[splitted.length - 1].match(/^[a-z]*$/i)) {
+        return 'nur Buchstaben sind in der Domainendung erlaubt';
+    }
+
+  for (i = 0; i < splitted.length-1; i++) {
+    if (!splitted[i].match(/^[a-z0-9\-]*$/i)) {
+      return 'nur Buchstaben, Zahlen, Unterstrich sind in Domainnamen erlaubt';
+    }
+  }
+
+  return 'Das ist eine Email';
+}
+
+function checkFocus ( f ) {
+
+  var r = document.getElementById('response');
+  var n = document.getElementById('submitnumber');
+  var g = document.getElementById('submitinteger');
+  var d = document.getElementById('submittwodecimalplaces');
+  var e = document.getElementById('submitemail');
+
+  switch ( f.id ) {
+
+    case 'inputnumber':
+      r.innerHTML = 'Geben Sie bitte eine Zahl ein.';
+      r.style.left = n.offsetLeft + n.offsetWidth + 'px';
+      r.style.top = n.offsetTop + 'px';
+      break;
+
+    case 'inputinteger':
+      r.innerHTML = 'Geben Sie bitte eine ganze Zahl ein.';
+      r.style.top = g.offsetTop + 'px';
+      break;
+
+    case 'inputtwodecimalplaces':
+      r.innerHTML = 'Geben Sie bitte ein Zahl mit zwei Nachkommastellen ein.';
+      r.style.top = d.offsetTop + 'px';
+      break;
+
+    case 'inputemail':
+      r.innerHTML = 'Geben Sie bitte eine E-Mail-Adresse ein.';
+      r.style.top = e.offsetTop + 'px';
+      break;
+
+    default: break;
+
+  }
+
+}
+
+function validateInput ( obj ) {
+
+  
+  var r = document.getElementById('response');
+  var v = obj.value;
+  var m;
+
+  var result;
+
+  /*if (m) {
+    result = ' Entfernen Sie die Leerzeichen.'
+  } else {
+    result = '';
+  }
+
+  var result = m ? ' Entfernen Sie die Leerzeichen.' : '';
+
+  'Das ist keine Zahl.' + (m ? ' Entfernen Sie die Leerzeichen.' : '');*/
+  v = v.replace(',', '.');
+  if ( v === '' ) {
+    r.innerHTML = 'Das Feld ist leer.'
+  } else if ( v.trim () == '' && v.split ( '' ).length === v.length ) {
+    r.innerHTML = 'Sie haben ' + v.length + ' Leerzeichen eingegeben.';
+  } else if (isNaN(v) && obj.id !== 'inputemail' || v.indexOf('.') == 0) {
+      r.innerHTML = ' Das ist keine Zahl.';
+      //r.style.backgroundColor = '#FF704D';
+  } else if (m = v.match ( /^\s+|\s+$/g )) {
+    r.innerHTML = 'Das ist keine Zahl.' + ( m ? ' Entfernen Sie die Leerzeichen.' : '' );
+  } else {
+
+    switch ( obj.id ) {
+
+      case 'inputnumber':
+          r.innerHTML = 'Das ist eine Zahl.';
+        break;
+
+      
+      case 'inputinteger':
+        if ( parseFloat(v) !== parseInt(v)) {
+          r.innerHTML = 'Das ist keine ganze Zahl.';
+        } else if (parseFloat(v) == isNaN) {
+          r.innerHTML = 'Das ist keine Zahl.';
+        } else {
+          r.innerHTML = 'Das ist eine ganze Zahl.';
+        }
+        break;
+
+      case 'inputtwodecimalplaces':
+        var split = v.split('.');
+        if ( parseFloat(v) == isNaN) {
+          r.innerHTML = 'Das ist keine Zahl.';
+        } else if (parseFloat(v) === parseInt(v) ) {     //else if (v.indexOf('.' == -1)) {r.innerHTML = 'Das ist eine ganze Zahl.';}
+          r.innerHTML = 'Das ist eine ganze Zahl.';
+        } else {                                         // else if (split.length > 2) {r.innerHTML = 'Das ist keine Zahl.';}
+          if (split[1].length > 2) {
+            r.innerHTML = 'Diese Zahl hat zu viele Nachkommastellen.';
+          } else if ( split[1].length < 2 ) {
+            r.innerHTML = 'Diese Zahl hat zu wenig Nachkommastellen.';
+          } else {
+            r.innerHTML = 'Diese Zahl hat zwei Nachkommastellen.';
+          }
+        }
+        break;
+
+      case 'inputemail':
+        r.innerHTML = validateEmail(v);
+        break;
+
+      default: 
+        break;
+
+    }
+  }
+
+  
+
+  return false;
+
+}
+</script>
+</head>
+<body>
+  <section id="formcontainer">
+    <form autocomplete="off" onsubmit="return false"; onreset="return this.reset()">
+
+      <label for="inputnumber">Zahl:</label>
+      <input type="text" id="inputnumber" name="inputnumber" onfocus="checkFocus(this)" autofocus>
+      <button id="submitnumber" name="submitnumber" value="submitnumber" type="submit" onclick="return validateInput(this.previousElementSibling)">OK</button><br>
+
+      <label for="inputinteger">Ganze Zahl:</label>
+      <input type="text" id="inputinteger" name="inputinteger" onfocus="checkFocus(this)" autofocus>
+      <button id="submitinteger" name="submitinteger" value="submitinteger" type="submit" onclick="return validateInput(this.previousElementSibling)">OK</button><br>
+
+      <label for="inputtwodecimalplaces">Zahl mit zwei Nachkommastellen:</label>
+      <input type="text" id="inputtwodecimalplaces" name="inputtwodecimalplaces" onfocus="checkFocus(this)" autofocus>
+      <button id="submittwodecimalplaces" name="submittwodecimalplaces" value="submittwodecimalplaces" type="submit" onclick="return validateInput(this.previousElementSibling)">OK</button><br>
+
+      <label for="inputemail">E-Mail:</label>
+      <input type="text" id="inputemail" name="inputemail" onfocus="checkFocus(this)">
+      <button id="submitemail" name="submitemail" value="submitemail" type="submit" onclick="return validateInput(this.previousElementSibling)">OK</button><br>
+
+      <p id="response"></p>
+
+    </form>
+  </section>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Form 00 (2)</title>
+<script>
+function handleForm (obj) {
+  /*
+  *
+  * Dealing with events fired by a form and/or its elements.
+  * An event is an object and it has the type property.
+  *
+  */
+
+  var i;
+  var l = 0;
+  var x = true;
+  var m;
+
+  if ( obj.type === 'reset') {
+    /*
+    *
+    * Disable both reset button and submit button and
+    * set focus to the first form element.
+    *
+    */
+    obj.target.elements.formsendbutton.disabled = true;
+    obj.target.elements.formresetbutton.disabled = true;
+    obj.target.elements.firstname.focus();
+    return;
+  }
+
+  if ( obj.type === 'change') {
+
+    /*
+    *
+    * @todo
+    * check age, check email, enable submit button
+    *
+    *
+    */
+    switch ( obj.target.id ) {
+      case 'age':
+
+        console.log( ( !isNaN(obj.target.value) ) ? 'Eine Zahl!' : 'Das ist keine Zahl!' );
+
+        break;
+      case 'email':
+
+        m = obj.target.value.match(/@/g);
+
+        console.log(m);
+        console.log( ( null == m ) ? '@-Zeichen fehlt! Keine gültige E-Mail-Adresse.' : m.length );
+
+        break;
+      default: break;
+    }
+    return;
+  }
+
+  /*
+  *
+  * @todo
+  * handle submit
+  *
+  if ( obj.type === 'submit') {
+    return;
+  }
+  *
+  */
+
+  if (obj.type === 'input') {
+
+    /*
+    *
+    * Check whether there is at least one character to enable reset button,
+    * check whether all fields are filled to enable submit button,
+    * disable buttons if necessary.
+    *
+    */
+    for ( i = 0; i < 4; i++ ) {
+      l += obj.currentTarget.elements[i].value.length;
+      x = x && Boolean(obj.currentTarget.elements[i].value);
+    }
+
+    obj.currentTarget.elements.formsendbutton.disabled = !x;
+    obj.currentTarget.elements.formresetbutton.disabled = ( l == 0 );
+    // or:
+    // obj.currentTarget.elements['formresetbutton'].disabled = !Boolean( l );
+
+  }
+}
+</script>
+</head>
+<body>
+  <p>Bitte füllen Sie das Formular aus.</p>
+  <form autocomplete="off" oninput="handleForm(event)" onreset="handleForm(event)" onchange="handleForm(event)">
+    <label for="firstname" class="labelinputtext">Vorame:</label><input type="text" id="firstname" name="firstname" autofocus><br>
+    <label for="lastname" class="labelinputtext">Name:</label><input type="text" id="lastname" name="lastname"><br>
+    <label for="age" class="labelinputtext">Alter:</label><input type="text" id="age" name="age"><br>
+    <label for="email" class="labelinputtext">E-Mail:</label><input type="text" id="email" name="email"><br>
+    <button disabled accesskey="s" id="formsendbutton" name="sendbutton" value="submit" type="submit"><u>S</u>enden</button>
+    <input disabled id="formresetbutton" name="resetbutton" value="Leeren" type="reset">
+  </form>
+</body>
+</html>

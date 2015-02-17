@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>XMLHttpRequest - csv</title>
+<style>
+#somecontent {}
+</style>
+<script>
+
+var url = 'spelling_alphabet-uk_UA.csv';
+
+if ( window.XMLHttpRequest ) { // Mozilla, Safari, ...
+  var xhr = new XMLHttpRequest();
+} else if ( window.ActiveXObject ) { // IE
+  try {
+    var xhr = new ActiveXObject( 'Msxml2.XMLHTTP' );
+  }
+  catch(e) {
+    try {
+      var xhr = new ActiveXObject( 'Microsoft.XMLHTTP' );
+    }
+    catch(e) {}
+  }
+}
+
+xhr.onreadystatechange = function() {
+
+  if (xhr.readyState == 4 && xhr.status == 200) {
+
+    var result = xhr.responseText;
+    showResult(parseCsvToJSON(result));
+
+  }
+
+}
+
+xhr.open( 'GET', url, true );
+xhr.send();
+
+function parseCsvToJSON(csv) {
+  var lines = csv.split('\n');
+  console.log(lines)
+  var result = [];
+
+  var i;
+  var currentline;
+  var obj;
+  var key;
+  var val;
+
+  for (i = 0; i < lines.length; i++) {
+    currentline = lines[i].split(';');
+
+    obj = {};
+    key = currentline[0];
+    val = currentline[1];
+    
+    obj[key] = val;
+    
+    result[i] = obj;
+  }
+
+  return result;
+}
+
+function showResult(arr) {
+
+  var out = '';
+
+  var i;
+
+  var obj;
+  var key;
+  var val;
+
+  for (i = 0; i < arr.length; i++) {
+    obj = arr[i];
+
+    for (key in obj) {
+      val = obj[key];
+
+      out += '<p style="margin: 0;">'
+          + key + " : " + val
+          + ( (i > 2) ? ' ... <a href="#" onclick="playAudio(\'' + val + '\'); return false;">Audio</a>' : '' )
+          + '</p>';
+
+    }
+
+  }
+
+  document.getElementById("somecontent").innerHTML = out;
+
+}
+
+function playAudio(name) {
+
+  var u = 'https://tts.voicetech.yandex.net/tts?format=mp3&quality=hi&lang=ru_RU&text=' + encodeURI(name);
+  var p = document.getElementById('player');
+
+  p.src = u;
+  p.play();
+
+}
+
+</script>
+</head>
+<body>
+<audio id="player"></audio>
+<div id="somecontent"></div>
+</body>
+</html>

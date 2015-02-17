@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<alphabet>
+	<title> Фонетический алфавит </title>
+	<language>Русский</language>
+	<source>https://ru.wikipedia.org/wiki/Фонетический_алфавит</source>
+	<mainword main_letter="Буква">Слово</mainword>
+	<word letter='А'>Анна (Антон, Алексей)</word>
+	<word letter='Б'>Борис</word>
+	<word letter='В'>Василий</word>
+	<word letter='Г'>Григорий (Галина)</word>
+	<word letter='Д'>Дмитрий</word>
+	<word letter='Е'>Елена</word>
+	<word letter='Ё'>Елена(ёлка)</word>
+	<word letter='Ж'>Женя (жук)</word>
+	<word letter='З'>Зинаида (Зоя)</word>
+	<word letter='И'>Иван</word>
+	<word letter='Й'>Йогурт</word>
+	<word letter='К'>Константин (киловатт)</word>
+	<word letter='Л'>Леонид</word>
+	<word letter='М'>Михаил (Мария)</word>
+	<word letter='Н'>Никола́й</word>
+	<word letter='О'>Ольга</word>
+	<word letter='П'>Павел</word>
+	<word letter='Р'>Роман (радио)</word>
+	<word letter='С'>Семён (Серге́й)</word>
+	<word letter='Т'>Татьяна (Тамара)</word>
+	<word letter='У'>Ульяна</word>
+	<word letter='Ф'>Фёдор</word>
+	<word letter='Х'>Харитон</word>
+	<word letter='Ц'>Циля</word>
+	<word letter='Ч'>Чебурашка</word>
+	<word letter='Ш'>Шура</word>
+	<word letter='Щ'>щука</word>
+	<word letter='Ъ'>твёрдый знак</word>
+	<word letter='Ы'>еры (и́грек)</word>
+	<word letter='Ь'>мягкий знак</word>
+	<word letter='Э'>эхо (Эмма, Эмилия)</word>
+	<word letter='Ю'>Юрий</word>
+	<word letter='Я'>Яков</word>
+</alphabet>

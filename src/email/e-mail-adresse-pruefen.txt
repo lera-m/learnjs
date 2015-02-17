@@ -1,0 +1,35 @@
+/ nur ein @-Zeichen
+x [ domain-endung (tld) ]
+/ kein Leerstring und Leerzeichen vor @
+/ [ keine Sonderzeichen : / * ? () ... ] vor dem @
+
+/ kein Leerstring nach @
+/ mindestens ein Punkt nach @
+/ Punkt nicht unmittelbar nach @
+/ nach dem Punkt kein Leerstring und Leerzeichen
+/ mindestens zwei Zeichen nach dem letzten Punkt
+/ nur Buchstaben und nach dem letzten Punkt
+/ nur Buchstaben, Zahlen und - nach @
+/ keine mehrere Punkte aufeinanderfolgend
+
+
+var email = ...
+
+ - email.indexOf("@") != 0 (адрес не начинается с @)
+ - email.search('@') != 0
+ - email.split(".").length > 1 (nach dem @)
+ - email.substr(email.indexOf('@') + 1) != "" (все после @)
+ - email.substr(email.indexOf('@') + 1, 1) != "." (нет точки после @)
+ - email.substring( 0, email.indexOf('@')) != "" (адрес не начинается с @)
+...
+
+ - email.trim()
+
+ - var array = email.match(/@/g);
+   if (array.length > 1)  {                  (только 1 @)
+       false
+       }
+   else { true}  
+ 
+
+     
