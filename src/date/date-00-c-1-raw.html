@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Date-Objekt Calendar v0.1</title>
+<style>
+body {
+  font-family: Arial;
+  font-size: 12px;
+}
+caption {
+  padding: 5px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+p {
+  color: grey;
+  font-family: monospace;
+  white-space: pre;
+  
+}
+</style>
+<script>
+
+function fillCalendar() {
+
+  var monate = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  var tage = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sonnabend'];
+
+  var d = new Date();
+
+  var currentyear = d.getFullYear();
+  var currentmonth = d.getMonth();
+  var currentday = d.getDate();
+  var currentdayofweek = d.getDay();
+
+  // your code here:
+  // ...
+
+  // #1
+  var thEl = document.getElementsByTagName('th'); 
+  var i;
+  for (i = 0; i < thEl.length; i++) {
+    if (i === 6) {
+      thEl[i].innerHTML = tage[0];
+    } else {
+      thEl[i].innerHTML = tage[i+1];
+    }
+  }
+
+  // #2
+  var table = document.getElementById("currentmonth");
+  var row;
+  var j;
+  var cell;
+  var k;
+  for (j = 1; j < 6; j++){
+    row = table.insertRow(j);
+    for (k = 0; k < 7; k++) {
+      cell = row.insertCell(k);
+    }
+  }
+
+} 
+
+</script>
+</head>
+<body onload="fillCalendar()">
+<p id="currentdate"></p>
+<table id="currentmonth">
+  <caption></caption>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td colspan=7>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

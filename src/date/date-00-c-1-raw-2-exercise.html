@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Date-Objekt Calendar v0.2</title>
+<style>
+body {
+  font-family: Arial;
+  font-size: 12px;
+}
+caption {
+  padding: 5px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+p {
+  color: grey;
+  font-family: monospace;
+  white-space: pre;
+  
+}
+</style>
+<script>
+
+function fillCalendar() {
+
+                                                                              /*
+
+AUFGABE
+
+Gib eine Kalenderblatt-Tabelle mit den Daten des aktuellen Monats aus.
+Die Spalten mit Samstagen und Sonntagen sowie die Zelle mit
+dem aktuellen Tag sollen hervorgehoben werden.
+
+Folge dazu den Anweisungen 1. - 12.
+
+Die Räume zwischen bzw. nach den Kommentaren '// Deine Anweisung...'
+sollen lediglich der Orientierung dienen und nicht bestimmen, wie viele
+Zeilen zu schreiben sind.
+
+                                                                              */
+
+
+  var monate = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  var tage = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Sonnabend'];
+
+  var d = new Date();
+
+  var currentyear = d.getFullYear();
+  var currentmonth = d.getMonth();
+  var currentday = d.getDate();
+  var currentdayofweek = d.getDay();
+
+                                                                              /*
+
+1.  Lass in der Kopfzeile der Tabelle mit der ID currentmonth die Wochentage
+    von Montag bis Sonntag ausgeben.
+    In der Variable weekstartmonday wird gespeichert, ob die Woche am
+    Sonntag oder Montag beginnt.
+
+    Vervollständige die if-else-Anweisung in der for-Schleife.
+
+                                                                              */
+
+  var weekstartmonday = 1; // weeks start on Mondays - true (1) or false (0)
+  var table = document.getElementById('currentmonth');
+  var th = document.getElementsByTagName('th');
+  var i;
+
+  for (i = 0; i < th.length; i++) {
+    if (weekstartmonday) {
+      // Deine Anweisungen - Anfang
+      if (i === 6) {
+        th[i].innerHTML = tage[0];
+      } else {
+        th[i].innerHTML = tage[i+1];
+      }
+    } else {
+      // Deine Anweisungen - Anfang
+       th[i].innerHTML = tage[i];
+      // Deine Anweisungen - Ende
+    }
+  }
+
+                                                                              /*
+
+2.  Füge unter der Kopfzeile der Tabelle EINE neue Tabellenzeile
+    mit der entsprechenden Anzahl Zellen ein.
+
+    Wende dafür die Methode insertRow() auf das Objekt mit dem Namen table an
+    und - in einer for-Schleife - die Methode insertCell() auf das Objekt
+    table.rows[1].
+
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+  var table = document.getElementById("currentmonth");
+  var row;
+  var k;
+  
+    row = table.insertRow(1);
+    for (k = 0; k < 7; k++) {
+      cell = row.insertCell(k);
+    }
+  
+
+
+
+  // Deine Anweisungen - Ende
+
+                                                                              /*
+
+3.  Ermittle den Wochentag des Monatsersten und lege die Ziffer in
+    einer Variablen mit dem Namen currentmonth_firstweekday ab.
+
+                                                                              */
+
+  // Deine Anweisung
+  var copyofd = new Date(d.getTime());
+  copyofd.setDate(1);
+  var currentmonth_firstweekday = copyofd.getDay();
+
+
+
+
+                                                                              /*
+
+4.  Finde heraus, in welcher Zelle die Ziffer 1 für den Ersten des Monats
+    stehen muss. Unterscheide dabei, ob die Woche am Sonntag oder am Montag
+    beginnt. Gib die Ziffer 1 an der richtigen Stelle aus.
+
+    Schritte:
+
+    1 Lege eine Variable mit dem Namen firstday_cellindex an.
+
+    2 Schreibe eine if-else-Anweisung, in der in Abhängigkeit vom Wert der
+      Variable weekstartmonday die Variable firstday_cellindex einen Wert
+      erhält.
+
+    3 Lass die Ziffer 1 in der entsprechenden Zelle ausgeben.
+
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+  var firstday_cellindex;
+
+  if (weekstartmonday) {
+      firstday_cellindex = currentmonth_firstweekday - 1;
+
+      if (firstday_cellindex === -1) {
+        firstday_cellindex = 6;
+      }
+
+  } else {
+      firstday_cellindex = currentmonth_firstweekday;
+  }
+
+  var firstDayRow = table.getElementsByTagName('tr')[1];
+  var firstDayCell = firstDayRow.getElementsByTagName('td')[firstday_cellindex];
+
+  firstDayCell.innerHTML = 1;
+
+    // Deine Anweisungen - Ende
+
+                                                                              /*
+
+5.  Ermittle die Anzahl der Tage im Monat und lege die Zahl in einer
+    Variable mit dem Namen currentmonth_numberofdays ab.
+
+                                                                              */
+
+  // Deine Anweisung
+  var copyofd2 = new Date(d.getTime());
+  copyofd2.setMonth(currentmonth + 1);
+  copyofd2.setDate(0);
+  var currentmonth_numberofdays = copyofd2.getDate();
+
+
+                                                                              /*
+
+6.  Ermittle die Anzahl der noch benötigten Tabellenzeilen.
+
+    Schritte:
+
+    1 Errechne, wie viele Zellen, inklusive der mit dem Monatsersten,
+      in der ersten Tabellenzeile (unterhalb der Kopfzeile) belegt
+      sein werden. Benutze dafür den Wert in der Variablen firstday_cellindex.
+      Speichere das Ergebnis in einer Variablen mit dem Namen
+      numberofdays_firstrow.
+
+    2 Ziehe das Ergebnis von der Anzahl der Tage im Monat
+      (Variable currentmonth_numberofdays) ab und speichere das Ergebnis
+      in einer Variablen mit dem Namen numberofdays_left.
+
+    3 Teile das Ergebnis durch die Anzahl der Tabellenspalten,
+      runde den Wert auf einen einstelligen Wert auf - benutze Math.ceil()-
+      und speichere ihn in einer Variablen mit dem Namen additionalrows.
+
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+  var numberofdays_firstrow = 7 - firstday_cellindex;
+  var numberofdays_left = currentmonth_numberofdays - numberofdays_firstrow;
+  var additionalrows = Math.ceil(numberofdays_left/7);
+
+
+  // Deine Anweisungen - Ende
+
+                                                                              /*
+
+7.  Füge die noch notwendigen Tabellenzeilen mit der entsprechenden
+    Anzahl Zellen in die Tabelle ein.
+
+    Schreibe dafür eine verschachtelte for-Schleife. Benutze in der
+    Bedingung der äußeren Schleife die Variable additionalrows und
+    beachte auch, dass es am Beginn der Tabelle schon zwei Zeilen gibt.
+
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+
+  var j;
+  for (j = 2; j < additionalrows + 2; j++){
+    row = table.insertRow(j);
+    for (k = 0; k < 7; k++) {
+      cell = row.insertCell(k);
+    }
+  }
+
+
+
+
+
+  // Deine Anweisungen - Ende
+
+                                                                              /*
+
+8.  Fülle nun die restlichen Zellen mit den Datumszahlen.
+
+    Schritte:
+
+    1 Speichere alle Elemente mit dem Tag 'td' in einer Variablen
+      mit dem Namen cells.
+
+    2 Speichere den Wert der Variablen firstday_cellindex in einer
+      Variablen index.
+
+    3 Schreibe ein for-Schleife zum Befüllen der Zellen.
+      Benutze in der Bedingung der Schleife die Variable
+      currentmonth_numberofdays und beachte auch, dass mit
+      der Ziffer 2 begonnen werden muss.
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+  var cells = table.getElementsByTagName('td');
+  var index = firstday_cellindex;
+
+  for (i = 2; i <= currentmonth_numberofdays; i++) {
+    index++;
+    cells[index].innerHTML = i;
+  }
+
+
+
+
+  // Deine Anweisungen - Ende
+
+                                                                              /*
+
+9.  Färbe den Hintergrund der Spalten Samstag und Sonntag.
+    Du kannst z. B. mit der Farbe 'seashell' arbeiten.
+
+    Das soll auch funktionieren, wenn der erste Wochentag Sonntag ist.
+
+                                                                              */
+
+  // Deine Anweisungen - Anfang
+  for (i = 0; i <= additionalrows + 1; i++) {
+    if (weekstartmonday) {
+      table.rows[i].cells[5].style.backgroundColor = 'seashell';
+    } else {
+      table.rows[i].cells[0].style.backgroundColor = 'seashell';
+    }
+    table.rows[i].cells[6].style.backgroundColor = 'seashell';
+  }
+
+
+
+
+
+
+
+  // Deine Anweisungen - Ende
+
+                                                                              /*
+
+10. Färbe den Hintergrund der Zelle mit dem aktuellen Datum.
+    Du kannst z. B. mit der Farbe 'powderblue' arbeiten.
+
+                                                                              */
+
+  // Deine Anweisung
+ cells[firstday_cellindex + currentday - 1].style.backgroundColor = 'powderblue';
+
+
+                                                                              /*
+
+11. Lass im Absatz mit der ID currentdate das aktuelle Datum im Format
+    'ddd, dd. mmm yyyy' (z. B. Sonntag, 1. Februar 2015) ausgeben.
+
+                                                                              */
+
+  // Deine Anweisung
+  document.getElementById('currentdate').innerHTML = tage[currentdayofweek] + ', ' + d.toLocaleDateString();
+
+
+                                                                              /*
+
+12. Lass als Tabellenüberschrift (im caption-Element) das aktuelle Jahr
+    und darunter den Namen des aktuellen Monats ausgeben.
+
+                                                                              */
+
+  // Deine Anweisung
+  table.caption.innerHTML = currentyear + '<br>' + monate[currentmonth];
+
+
+}
+
+</script>
+</head>
+<body onload="fillCalendar()">
+<p id="currentdate"></p>
+<table id="currentmonth">
+  <caption></caption>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td colspan=7>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>
